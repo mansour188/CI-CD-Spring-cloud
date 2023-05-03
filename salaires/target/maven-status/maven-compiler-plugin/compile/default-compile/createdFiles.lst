@@ -1,0 +1,6 @@
+com\Salaire$SalaireBuilder.class
+com\SalaireService.class
+com\Salaire.class
+com\Appsalaire.class
+com\SalaireRepository.class
+com\SalaireController.class

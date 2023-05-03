@@ -1,0 +1,102 @@
+pipeline {
+    agent any
+      environment {
+            SSH_KEY = credentials('ssh-key') // Jenkins credential ID for the SSH private key
+            SSH_USER = 'ec2-user'
+            EC2_HOST = 'ec2-44-212-194-114.compute-1.amazonaws.com'
+
+        }
+    tools{
+        maven 'MAVEN'
+    }
+
+    stages {
+      stage('test') {
+                steps {
+                    script{
+                        echo 'testing the application'
+                        sh 'mvn test'
+                    }
+                }
+            }
+        stage('build') {
+            steps {
+                script{
+                    echo 'bulding the application'
+                    sh 'mvn clean package spring-boot:repackage '
+                }
+            }
+        }
+
+        stage('build image') {
+            steps {
+                script{
+                    echo 'building images  the application'
+                    withCredentials([usernamePassword(credentialsId:'docker-hub-repo', passwordVariable:'PASS',usernameVariable:'USER')]){
+
+                        sh "echo $USER"
+
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+
+
+
+
+                        sh 'docker build -t  mansour100/apigw ./apigw/'
+                        sh "echo $PASS | docker login -u $USER --password-stdin "
+                        sh 'docker push mansour100/apigw'
+
+
+
+                        sh 'docker build -t mansour100/eurekaserver ./eurekaserver/'
+                        sh 'docker push mansour100/eurekaserver'
+
+                        sh 'docker build -t mansour100/salaire ./users/'
+                        sh 'docker push mansour100/users'
+                         sh 'docker build -t mansour100/salaire ./salaires/'
+                         sh 'docker push mansour100/salaire'
+
+
+
+                    }
+                }
+            }
+        }
+         stage('Connect to EC2') {
+                    steps {
+                        sshagent(['ssh-key']) {
+                            sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_HOST}"
+                        }
+                    }
+                }
+
+                 stage('Pull Docker image') {
+                            steps {
+                                sshagent(['ssh-key']) {
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker pull  mansour100/users:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker pull  mansour100/apigw:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker pull mansour100/eurekaserver:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker pull mansour100/salaire:latest"
+                                }
+                            }
+                        }
+
+                        stage('Run Docker container') {
+                            steps {
+                               sshagent(['ssh-key']) {
+
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker network create my-network >/dev/null 2>&1 || true"
+
+
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f apigw"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f eurekaserver"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f users"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f salaire"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run --rm --name apigw  --network my-network --hostname apigw -d  -p 9977:9977   mansour100/apigw:latest"
+
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run --rm  --name users  --network my-network --hostname users  -d -p 8080:8080   mansour100/users:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run --rm  --name salaire  --network my-network --hostname salaire  -d -p 8081:8081   mansour100/salaire:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  eurekaserver  --network my-network  --hostname eurekaserver  -d -p 7777:7777   mansour100/eurekaserver:latest"
+                                }
+                            }
+                        }
+         }        }

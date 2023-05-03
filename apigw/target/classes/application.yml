@@ -1,0 +1,33 @@
+
+debug: true
+
+server:
+  port: 9977
+spring:
+  application:
+    name: api-gateway
+
+
+
+  cloud:
+
+    gateway:
+      routes:
+        - id: user
+          uri: lb://USERS
+          predicates:
+            - Path=/user/**
+          filters:
+            - AuthenticationFilter
+        - id : salaire
+          uri: lb://SALAIRE
+          predicates:
+            - Path=/salaire/**
+          filters:
+                - AuthenticationFilter
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka
