@@ -106,8 +106,8 @@ pipeline {
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker run --rm  --name users  --network my-network --hostname users  -d -p 8080:8080   mansour100/users:latest"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker run --rm  --name salaire  --network my-network --hostname salaire  -d -p 8081:8081   mansour100/salaire:latest"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  eurekaserver  --network my-network  --hostname eurekaserver  -d -p 7777:7777   mansour100/eurekaserver:latest"
-                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  eurekaserver  --network my-network  --hostname formation  -d -p 8099:8099   mansour100/formation:latest"
-                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  eurekaserver  --network my-network  --hostname conge  -d -p 8099:8099   mansour100/conge:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  formation  --network my-network  --hostname formation  -d -p 8099:8099   mansour100/formation:latest"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  conge  --network my-network  --hostname conge  -d -p 8099:8099   mansour100/conge:latest"
                                 }
                             }
                         }
