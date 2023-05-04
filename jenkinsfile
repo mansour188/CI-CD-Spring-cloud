@@ -84,6 +84,8 @@ pipeline {
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f eurekaserver"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f users"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f salaire"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f conge"
+                                    sh "ssh ${SSH_USER}@${EC2_HOST} docker container rm -f formation"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker rmi \$(docker images -a -q) >/dev/null 2>&1 || true"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker pull  mansour100/users:latest"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker pull  mansour100/apigw:latest"
