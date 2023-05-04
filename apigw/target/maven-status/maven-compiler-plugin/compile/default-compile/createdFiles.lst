@@ -1,0 +1,6 @@
+apigw\ApiGwApplication.class
+apigw\config\AppConfig.class
+apigw\filter\AuthenticationFilter$Config.class
+apigw\util\JwtUtil.class
+apigw\filter\AuthenticationFilter.class
+apigw\filter\RouteValidator.class

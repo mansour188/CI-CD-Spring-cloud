@@ -16,6 +16,8 @@
     <module>eurekaserver</module>
 
     <module>salaires</module>
+      <module>conge</module>
+      <module>formation</module>
 
   </modules>
 
@@ -74,6 +76,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
+
 
 
   </dependencies>

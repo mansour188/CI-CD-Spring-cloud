@@ -25,9 +25,24 @@ spring:
             - Path=/salaire/**
           filters:
                 - AuthenticationFilter
+        - id: conge
+          uri: lb://CONGE
+          predicates:
+            - Path=/conge/leave-requests/**
+          filters:
+            - AuthenticationFilter
+        - id: formation
+          uri: lb://FORMATION
+          predicates:
+            - Path=/api/v1/formations/**
+          filters:
+            - AuthenticationFilter
+
 
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:7777/eureka
+
+

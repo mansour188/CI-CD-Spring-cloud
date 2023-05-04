@@ -1,0 +1,6 @@
+com\my_project\formation\FormationApplication.class
+com\my_project\formation\controler\FormationController.class
+com\my_project\formation\model\Formation.class
+com\my_project\formation\model\Formation$FormationBuilder.class
+com\my_project\formation\repository\FormationRepository.class
+com\my_project\formation\service\FormationService.class

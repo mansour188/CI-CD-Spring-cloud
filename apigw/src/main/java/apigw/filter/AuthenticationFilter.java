@@ -78,6 +78,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 resourceRoles.put("/user/rh", Arrays.asList("RH"));
                 resourceRoles.put("/user/employer", Arrays.asList("EMPLOYER"));
                 resourceRoles.put("/salaire",Arrays.asList("RH"));
+                resourceRoles.put("/conge/leave-requests/Rh",Arrays.asList("RH"));
+                resourceRoles.put("/conge/leave-requests/employer",Arrays.asList("EMPLOYER"));
+                resourceRoles.put("/api/v1/formations", Arrays.asList("RH"));
+
                 Set<String> keys=resourceRoles.keySet();
                 System.out.println(keys);
                 List<String> allowedRoles=null;
