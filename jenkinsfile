@@ -90,6 +90,8 @@ pipeline {
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker run  --rm --name  conge  --network my-network  --hostname conge  -d -p 8099:8099   mansour100/conge:latest"
 
 
+
+
                                 }
                             }
                         }
