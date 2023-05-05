@@ -47,6 +47,14 @@ pipeline {
                         sh 'docker push mansour100/formation'
                          sh 'docker build -t mansour100/conge ./eurekaserver/'
                          sh 'docker push mansour100/conge'
+
+
+
+
+
+
+
+
                     }
                 }
             }
