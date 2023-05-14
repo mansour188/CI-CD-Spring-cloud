@@ -35,17 +35,17 @@ pipeline {
                         sh "echo $USER"
                         sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh 'docker build -t  mansour100/apigw ./apigw/'
-                        sh "echo $PASS | docker login -u $USER --password-stdin "
+
                         sh 'docker push mansour100/apigw'
                         sh 'docker build -t mansour100/eurekaserver ./eurekaserver/'
                         sh 'docker push mansour100/eurekaserver'
-                        sh 'docker build -t mansour100/salaire ./users/'
+                        sh 'docker build -t mansour100/users ./users/'
                         sh 'docker push mansour100/users'
                         sh 'docker build -t mansour100/salaire ./salaires/'
                         sh 'docker push mansour100/salaire'
-                        sh 'docker build -t mansour100/formation ./eurekaserver/'
+                        sh 'docker build -t mansour100/formation ./formation/'
                         sh 'docker push mansour100/formation'
-                         sh 'docker build -t mansour100/conge ./eurekaserver/'
+                         sh 'docker build -t mansour100/conge ./conge/'
                          sh 'docker push mansour100/conge'
 
 
