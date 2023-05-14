@@ -83,6 +83,8 @@ pipeline {
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker pull mansour100/salaire:latest"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker pull mansour100/conge:latest"
                                     sh "ssh ${SSH_USER}@${EC2_HOST} docker pull mansour100/formation:latest"
+
+
                                 }
                             }
                         }
